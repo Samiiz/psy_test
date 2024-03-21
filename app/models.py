@@ -6,11 +6,9 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True)
-    password = Column(String, nullable=True)
     name = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
     gender = Column(String, nullable=False)
-    is_staff = Column(Boolean, default=False)
 
 class Question(Base):
     __tablename__ = 'questions'
@@ -25,3 +23,10 @@ class Answer(Base):
     answer = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     question_id = Column(Integer, ForeignKey('questions.id'))
+
+class Staff(Base):
+    __tablename__ ='staff'
+
+    id = Column(String, primary_key=True, index=True)
+    nickname = Column(String, nullable=False)
+    password = Column(String, nullable=True)
