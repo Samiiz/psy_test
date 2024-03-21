@@ -53,3 +53,6 @@ class Answer(Base):
     nickname = Column(String, nullable=False)
     password = Column(String, nullable=True)
     ```
+
+4. 스키마 생성
+    - [스키마](app/schemas)
