@@ -1,39 +1,24 @@
-version: '3.11'
+version: '3.8'
 services:
-  web:
+  app:
     build: .
-    command: uvicorn main:app --host 0.0.0.0 --port 8000
-    volumes:
-      - ./app:/app
     ports:
       - "8000:8000"
     depends_on:
       - db
-      - alembic
-
-  # Second Container : PostgreSQL
+    environment:
+      DATABASE_URL: postgresql://samiiz:p0105samiiz@db:5432/psytest
+    command: >
+      sh -c "python3 main.py"
   db:
     image: postgres:16
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=psytest
-      - POSTGRES_USER=samiiz
-      - POSTGRES_PASSWORD=p0105samiiz
-
-  alembic:
-    build:
-      context: .
-      dockerfile: Dockerfile
+      POSTGRES_DB: psytest
+      POSTGRES_USER: samiiz
+      POSTGRES_PASSWORD: p0105samiiz
     volumes:
-      - ./app:/app
-      - ./alembic:/app/alembic
-    environment:
-      - POSTGRES_DB=psytest
-      - POSTGRES_USER=samiiz
-      - POSTGRES_PASSWORD=p0105samiiz
-    depends_on:
-      - db
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  postgres-data:
+  postgres_data:
+  static_volume:
