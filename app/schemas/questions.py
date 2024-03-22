@@ -8,7 +8,7 @@ class Question(QuestionBase):
     id : int
 
     class Config:
-        orm_mode = True
+        from_attributes=True
 
 class CreateQuestion(QuestionBase):
     id : int

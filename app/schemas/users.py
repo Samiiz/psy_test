@@ -10,4 +10,8 @@ class User(UserBase):
     gender : str
 
     class Config:
-        orm_mode = True
+        from_attributes=True
+
+class CreateUser(UserBase):
+    age : int
+    gender : str
