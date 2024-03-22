@@ -10,6 +10,8 @@ class User(Base):
     age = Column(Integer, nullable=False)
     gender = Column(String, nullable=False)
 
+    answers = relationship("Answer", back_populates='owner')
+
 class Question(Base):
     __tablename__ = 'questions'
 
@@ -23,6 +25,8 @@ class Answer(Base):
     answer = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('users.id'))
     question_id = Column(Integer, ForeignKey('questions.id'))
+
+    owner = relationship("User", back_populates='answers')
 
 class Staff(Base):
     __tablename__ ='staff'
