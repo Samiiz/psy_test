@@ -1,8 +1,8 @@
-"""empty message
+"""docker-compose bulid
 
-Revision ID: a2d8cc3d62b6
-Revises: 722ec89470b1
-Create Date: 2024-03-22 05:26:13.783520
+Revision ID: 950ff94047cc
+Revises: 
+Create Date: 2024-03-22 10:26:30.523959
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'a2d8cc3d62b6'
-down_revision: Union[str, None] = '722ec89470b1'
+revision: str = '950ff94047cc'
+down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -26,13 +26,18 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_questions_id'), 'questions', ['id'], unique=False)
+    op.create_table('staff',
+    sa.Column('id', sa.String(), nullable=False),
+    sa.Column('nickname', sa.String(), nullable=False),
+    sa.Column('password', sa.String(), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_staff_id'), 'staff', ['id'], unique=False)
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('password', sa.String(), nullable=True),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('age', sa.Integer(), nullable=False),
     sa.Column('gender', sa.String(), nullable=False),
-    sa.Column('is_staff', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
@@ -55,6 +60,8 @@ def downgrade() -> None:
     op.drop_table('answers')
     op.drop_index(op.f('ix_users_id'), table_name='users')
     op.drop_table('users')
+    op.drop_index(op.f('ix_staff_id'), table_name='staff')
+    op.drop_table('staff')
     op.drop_index(op.f('ix_questions_id'), table_name='questions')
     op.drop_table('questions')
     # ### end Alembic commands ###

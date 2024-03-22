@@ -1,21 +1,25 @@
-version: '3.8'
+version: "3.8"
 services:
-  app:
+  web:
     build: .
+    command: >
+      sh -c "alembic revision --autogenerate -m 'docker-compose bulid' && \
+             alembic upgrade head && \
+             uvicorn main:app --host 0.0.0.0 --port 8000"
+
+    volumes:
+      - ./app:/app
     ports:
       - "8000:8000"
     depends_on:
       - db
-    environment:
-      DATABASE_URL: postgresql://samiiz:p0105samiiz@db:5432/psytest
-    command: >
-      sh -c "python3 main.py"
+
   db:
-    image: postgres:16
+    image: postgres:14
     environment:
-      POSTGRES_DB: psytest
+      POSTGRES_DB: psy_test
       POSTGRES_USER: samiiz
-      POSTGRES_PASSWORD: p0105samiiz
+      POSTGRES_PASSWORD: Parkshghfh9801!
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
