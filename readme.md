@@ -56,3 +56,61 @@ class Answer(Base):
 
 4. 스키마 생성
     - [스키마](app/schemas)
+    - 공식 문서에 맞춰서 orm_mode = True -> from_attributes=True 로 변경
+
+5. 라우터 생성
+    - [라우터](app/routers)
+    - [users](app/routers/users.py)
+        - post 추가
+
+6. CRUD(sql)용 sql.py생성
+    -[SQL](app/crud/sql.py)
+
+7. Alembic 관련 사항 수정
+    - 도커에 올렸을때 지속적인 Alembic 오류로 공식문서 및 다양한 블로그 확인  
+      그 결과 [alembic.ini](app/alembic.ini)의 위치가 내기준 프로젝트 최상위 디렉토리가 아니라  
+      app에 위치해야 하며 그에따른 `script_location` 을 수정해줘야 했으며  
+      [env.py](app/alembic/env.py)와 연결되어있는 [models.py](app/models.py), [database.py](app/database.py)의 상대적인 경로를 변경하고  
+      그로인해 [alembic.ini](app/alembic.ini)관련 오류 해결
+
+8. 도커 컴포즈 수정
+    - 기존 코드  
+    ```yml
+    services:
+      app:
+          build: .
+          ports:
+          - "8000:8000"
+          depends_on:
+          - db
+          environment:
+          DATABASE_URL: postgresql+psycopg2://"username":"password"@"host"/"dbname"
+          command: >
+          sh -c "python3 main.py"
+    ```
+    이렇게 애플리케이션 서비스를 `app`이라고 지정하고 DATABASE_URL을 따로 받아왔다  
+    하지만 `sqlalchemy.exc.OperationalError: (psycopg2.OperationalError)`  
+    오류 발생! 구글링과 공식문서를 확인 한 결과 많은 사람들이 서비스를 `web`으로 지정하였다.
+
+    그래서 변경한것이 
+    ```yml
+    services:
+      web:
+        build: .
+        command: >
+          sh -c "alembic revision --autogenerate -m 'docker-compose bulid' && \
+                 alembic upgrade head && \
+                 uvicorn main:app --host 0.0.0.0 --port 8000"
+
+        volumes:
+          - ./app:/app
+        ports:
+          - "8000:8000"
+        depends_on:
+          - db
+    ```
+    이렇게 병경하니 잘 되었다!
+
+    다시 공부해보니 `sqlalchemy.exc.OperationalError: (psycopg2.OperationalError)`   
+    이 오류는 내가 host를 `localhost`로 설쟁해서 문제가 생긴 것이였다.  
+    도커에 올릴땐 보통 이미지를 생성해서 진행하기 때문에 host는 db로 진행 해야한다. 
