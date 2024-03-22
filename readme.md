@@ -114,3 +114,31 @@
     다시 공부해보니 `sqlalchemy.exc.OperationalError: (psycopg2.OperationalError)`   
     이 오류는 내가 host를 `localhost`로 설쟁해서 문제가 생긴 것이였다.  
     도커에 올릴땐 보통 이미지를 생성해서 진행하기 때문에 host는 db로 진행 해야한다. 
+
+9. 2차 모델수정
+    - 모델간의 열견과 시각화의 편의성을 위해 User모델과 Answer모델 수정
+    ```python
+    class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    age = Column(Integer, nullable=False)
+    gender = Column(String, nullable=False)
+
+    answers = relationship("Answer", back_populates='owner')
+
+    class Answer(Base):
+    __tablename__ = 'answers'
+
+    id = Column(Integer, primary_key=True, index=True)
+    answer = Column(String, nullable=False)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    question_id = Column(Integer, ForeignKey('questions.id'))
+
+    owner = relationship("User", back_populates='answers')
+    ```
+
+10. CRUD API 생성
+    - [user](app/crud/sql.py)
+    - <img src="https://github.com/Samiiz/psy_test/blob/main/contents/users_crud_docs.gif?raw=true">
