@@ -1,7 +1,10 @@
 version: "3.8"
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        - DEV = true
     command: >
       sh -c "alembic revision --autogenerate -m 'docker-compose bulid' && \
              alembic upgrade head && \

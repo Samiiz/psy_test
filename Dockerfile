@@ -20,7 +20,7 @@ WORKDIR /app
 EXPOSE 8000
 
 # DEV변수를 false로 선언
-ARG DEV=false
+ARG DEV=true
 
 # RUN : FROM기반의 이미지 위에서 실행될 명령어
 # psytest이라는 가상환경 생성

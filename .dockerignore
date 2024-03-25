@@ -16,3 +16,6 @@ venv/
 
 # postgresql
 /data
+
+# additional
+contents/

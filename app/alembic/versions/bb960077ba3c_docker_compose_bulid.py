@@ -1,8 +1,8 @@
 """docker-compose bulid
 
-Revision ID: 950ff94047cc
+Revision ID: bb960077ba3c
 Revises: 
-Create Date: 2024-03-22 10:26:30.523959
+Create Date: 2024-03-24 19:20:04.045894
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '950ff94047cc'
+revision: str = 'bb960077ba3c'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -38,12 +38,14 @@ def upgrade() -> None:
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('age', sa.Integer(), nullable=False),
     sa.Column('gender', sa.String(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.Column('updated_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
     op.create_table('answers',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('answer', sa.String(), nullable=False),
+    sa.Column('answer', sa.Boolean(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('question_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),

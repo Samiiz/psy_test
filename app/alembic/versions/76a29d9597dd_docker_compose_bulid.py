@@ -1,8 +1,8 @@
 """docker-compose bulid
 
-Revision ID: 63608bec398c
-Revises: 64872e82b229
-Create Date: 2024-03-22 14:01:56.337175
+Revision ID: 76a29d9597dd
+Revises: 5fe1a0e868be
+Create Date: 2024-03-24 22:39:21.324461
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '63608bec398c'
-down_revision: Union[str, None] = '64872e82b229'
+revision: str = '76a29d9597dd'
+down_revision: Union[str, None] = '5fe1a0e868be'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

@@ -11,9 +11,12 @@ class Staff(StaffBase):
         from_attributes=True
 
 class CreateStaff(StaffBase):
-    id : str
+    nickname : str
     password : str
 
 class UpdateStaff(StaffBase):
     nickname : str | None = None
     password : str | None = None
+
+class DeleteStaff(StaffBase):
+    password : str

@@ -7,7 +7,26 @@ class AnswerBase(BaseModel):
 
 class Answer(AnswerBase):
     id : int
-    answer : str
+    answer : bool
+
+    class Config:
+        from_attributes=True
+
+
+class CreateAnswer(AnswerBase):
+    answer: bool
+
+
+class UserAnswer(BaseModel):
+    question_id : int
+    answer : bool
+
+    class Config:
+        from_attributes=True
+
+class QuestionAnswer(BaseModel):
+    user_id : int
+    answer : bool
 
     class Config:
         from_attributes=True

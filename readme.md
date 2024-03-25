@@ -142,3 +142,6 @@
 10. CRUD API 생성
     - [user](app/crud/sql.py)
     - <img src="https://github.com/Samiiz/psy_test/blob/main/contents/users_crud_docs.gif?raw=true">
+
+11.  users 이외 모델 CRUD 생성
+    - [CRUD](app/crud/sql.py)

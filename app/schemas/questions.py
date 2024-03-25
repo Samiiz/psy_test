@@ -11,7 +11,7 @@ class Question(QuestionBase):
         from_attributes=True
 
 class CreateQuestion(QuestionBase):
-    id : int
+    question : str
 
 class UpdateQuestion(QuestionBase):
     question : str | None = None
